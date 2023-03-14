@@ -1,0 +1,72 @@
+AI-powered tool for trend analysis and nutritional ingredient predictions in Fine Bakery
+
+IMCD is a company that specializes in the distribution and marketing of specialty chemicals
+and food ingredients. They work with manufacturers to bring their products to market and
+provide technical support and other services to help customers use the products effectively.
+They operate in over 40 countries and have a wide range of customers in various industries
+such as food, personal care, and pharmaceuticals. IMCD's bakery department is a specific
+division within the company that focuses on providing ingredients and solutions to
+customers in the bakery industry.
+
+The demand for healthier and more sustainable products is on the rise. The marketing
+database Innova contains information on claims related to health and sustainability, as well
+as details on flavour, preparation methods, ingredients, nutrition, macronutrient
+breakdowns (such as fat, protein, and carbohydrates), sugar content, and pricing. An export
+for fine bakery products will be made available. The data can be enriched by public available
+recipe data and or flavour / molecule data.
+
+By utilizing natural language processing, graph-based AI, and embedding techniques, it is
+possible to create a sophisticated tool that can answer complex questions about trends in
+healthy and sustainable food products. The tool would be able to analyse the relationships
+and patterns in the data represented in the graph, answering questions such as "What could
+be a sustainable replacement for egg (ingredients and or additives /e-numbers) in cake
+without compromising texture, flavour, and taste experience?" or "What are the most
+common ingredients in gluten-free bread claims?" Additionally, embeddings can be used to
+cluster similar ingredients or recipes, identify similar food structures in the graph, and
+identify patterns in the relationships between different claims and ingredients, ultimately
+leading to better decision making. Lastly the preprocessed and analyzed data can be used as
+input features to train a predictive model to make predictions about future trends.
+
+The objective of the project is to build an AI-powered tool for trend analysis and ingredient
+predictions. The project will utilize established technology developed by the KCBBE. Initially,
+the tool will output trends and/or replacements in the form of an Excel file, along with data
+that supports these predictions. If the output proves to be effective, a software application
+may be developed.
+
+Keywords: Graph networks, natural language processing, embedding, machine learning, AI,
+food components, chemical structures, trend analysis
+
+Guidance:
+The project is expertly guided by Fenna Feenstra of the KCBBE, who will provide data
+science guidance. Regular progress meetings with the students and Fenna Feenstra are
+scheduled to ensure that the project is progressing efficiently and any obstacles are
+addressed promptly. IMCD will be updated throughout the project's duration. The project
+begins with a kickoff meeting in Mechelen with Thomas Vervaeren, the Segment Expert in
+Bakery, Food & Nutrition France serving as the Field Expert.
+
+Timeline
+The project will start on March 13th and conclude by the end of June. There is a possibility
+for the project to continue as an internship initiative
+
+Specific study case
+Egg replacement is an emerging trend driven by various factors, including ethical choices
+(veganism), well-being, product availability, and affordability. This trend affects a range of
+products, from cakes to biscuits, and can be achieved through various ways.
+Research questions:
+-   In which applications (cake/biscuits/others) is egg replacements used
+-   What is the trend over the past 2-5 years in egg replacement
+-   What are the most common ingredients and alternatives per application type
+-   What is the predicted recipe (ingredients, components, process steps) for egg
+    replacement /how to achieve the egg replacement
+
+Possible trend analysis questions:
+-   Understanding of the most dynamic markets and the most dynamic marketing
+    positioning and claims.
+-   Analysis of the ingredients used, specifically the ingredients used to obtain specific
+    claims (excluding irrelevant ingredients such as flour or salt, milk, fat, etc.).
+-   Identification of the most innovative ingredients for claims and nutritional profile
+    improvement.
+-   Predictions of the trends and dynamic markets for the next 2 to 5 years, the
+    ingredients expected to grow, and the ingredients expected to decline
+-   Evaluation of the cost impact of claims and ingredients (how much extra the
+    consumer is willing to pay).
