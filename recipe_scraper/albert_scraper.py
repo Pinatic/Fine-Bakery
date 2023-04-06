@@ -1,5 +1,5 @@
 import requests
-import regex as re
+import re
 from recipe_scrapers import scrape_me
 import pandas as pd
 
