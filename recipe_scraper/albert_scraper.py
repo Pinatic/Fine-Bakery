@@ -31,7 +31,10 @@ class AlbertScraper:
         Scrapes all the recipes found in the get_numbers functions and
         stores them in a DataFrame
         """
-        for recp_num in self.recipe_nums:
+        recipes_scraped = 0
+
+        for recp_num in self.recipe_nums[:5]:
+
             scraper = scrape_me(f'https://www.ah.nl/allerhande/recept/R-R{recp_num}')
 
             recipe = {'title': scraper.title(),
@@ -42,6 +45,9 @@ class AlbertScraper:
 
             self.recipe_df = pd.concat([self.recipe_df, pd.DataFrame([recipe])
                                         ], ignore_index=True)
+
+            recipes_scraped += 1
+            print(f'{recipes_scraped} recipes have been scraped')
 
     def recipes_to_csv(self, pathname):
         """
