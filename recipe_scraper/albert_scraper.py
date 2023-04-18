@@ -31,7 +31,7 @@ class AlbertScraper:
         Scrapes all the recipes found in the get_numbers functions and
         stores them in a DataFrame
         """
-        for recp_num in self.recipe_nums:
+        for recp_num in self.recipe_nums[:10]:
             scraper = scrape_me(f'https://www.ah.nl/allerhande/recept/R-R{recp_num}')
 
             recipe = {'title': scraper.title(),
