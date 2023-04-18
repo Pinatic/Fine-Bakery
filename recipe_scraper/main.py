@@ -7,10 +7,10 @@ import time
 # sys.stdout = codecs.getwriter('utf8')(sys.stdout)
 
 def main():
-    # print('Scraping Albert Hein')
-    # ah_scraper = AlbertScraper()
-    # ah_scraper.get_numbers()
-    # ah_scraper.scrape_recipes()
+    print('Scraping Albert Hein')
+    ah_scraper = AlbertScraper()
+    ah_scraper.get_numbers()
+    ah_scraper.scrape_recipes()
 
     print('Scraping Lekker Simpel')
     l_s_scraper = LekkerSimpelScraper()

@@ -3,8 +3,12 @@ import re
 from recipe_scrapers import scrape_me
 from datetime import datetime
 
-class AlbertScraper:
 
+class AlbertScraper:
+    """
+    Scrapes recieps from https://www.ah.nl/allerhande/
+    By: Jacob Menzinga
+    """
     def __init__(self) -> None:
         self.base_url = 'https://www.ah.nl/allerhande/recepten-zoeken?page='
         self.recipe_nums = None
@@ -22,10 +26,10 @@ class AlbertScraper:
         # while True:
         while page_num < 2:  # For testing, to replace with while true
             print(f'Page {page_num}')
-            
+
             # getting HTML
             r = requests.get(f'{self.base_url}{page_num}')
-            
+
             # checking if there's still recipes on the page
             if 'R-R' not in r.text:
                 break
@@ -48,13 +52,15 @@ class AlbertScraper:
             # Setting up a counter so we can track progress
             n = 1
 
-            for recp_num in self.recipe_nums[:2]:
+            for recp_num in self.recipe_nums[:5]:
                 scraper = scrape_me(f'https://www.ah.nl/allerhande/recept/R-R{recp_num}')
-                output.write(scraper.title()+',')
-                output.write(str(scraper.ingredients())+',')
-                output.write(str(scraper.instructions().split('\n'))+',')
-                output.write(scraper.url+',')
-                output.write('NaN\n')
+
+                title = scraper.title()
+                ingredients = scraper.ingredients()
+                instructions = scraper.instructions_list()
+                url = scraper.url
+
+                output.write(f'{title},"{ingredients}","{instructions}",{url},\n')
 
                 print(f'{n} recipes scraped')
                 n += 1

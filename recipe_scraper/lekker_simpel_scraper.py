@@ -25,7 +25,7 @@ class LekkerSimpelScraper:
 
         recipes = []
 
-        for tag in tags[:3]:
+        for tag in tags[:2]:
             print(f'working on {tag}')
             page_num = 1
             page_url = f'https://www.lekkerensimpel.com/{tag}/page/{page_num}/'
@@ -36,7 +36,7 @@ class LekkerSimpelScraper:
 
                 if 'class="cell large-6 medium-6 small-12"' in html.text:
 
-                    soup = BeautifulSoup(html.text)
+                    soup = BeautifulSoup(html.text, 'html.parser')
 
                     [recipes.append(a['href'].split('/')[-2]) for a in
                      (soup.find_all('a', attrs={"class": "post-item__anchor"}))]
@@ -55,19 +55,21 @@ class LekkerSimpelScraper:
         """
 
         # writing the header
-        with open(self.output_path, 'a') as output:
+        with open(self.output_path, 'w') as output:  # !! Change to append !!
             output.write("title,ingredients,directions,linksource,NER\n")
 
             # Setting up a counter so we can track progress
             n = 1
 
-            for recp in self.recipes[3:5]:
+            for recp in self.recipes[:4]:
                 scraper = scrape_me(f'https://www.lekkerensimpel.com/{recp}')
-                output.write(scraper.title()+',')
-                output.write(str(scraper.ingredients())+',')
-                output.write(str(scraper.instructions().split('\n'))+',')
-                output.write(scraper.url+',')
-                output.write('NaN\n')
+                
+                title = scraper.title()
+                ingredients = scraper.ingredients()
+                instructions = scraper.instructions_list()
+                url = scraper.url
+
+                output.write(f'{title},"{ingredients}","{instructions}",{url}\,\n')
 
                 print(f'{n} recipes scraped')
                 n += 1
