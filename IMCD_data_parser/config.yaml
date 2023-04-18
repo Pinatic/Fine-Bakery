@@ -1,0 +1,13 @@
+directory_from: '/commons/dsls/fine_bakery/Data'
+
+file_paths: ['2020-2022 BAK Bread__Bread_products_WE1 (5200).xls', '2020-2022 BAK Bread__Bread_products_WE2 (2100).xls', '2020-2022_BAK Cakes&Sweet_Goods_WE1 (8300).xls', '2020-2022_BAK Cakes&Sweet_Goods_WE2 (4800).xls', '2020-2022_BAK DataBase EE (5800).xls', '2020-2022_BAK Savoury_Biscuits WE (4250).xlsx', '2020-2022_BAK Sweet_biscuits_cookies_WE1 (5000).xls', '2020-2022_BAK Sweet_biscuits_cookies_WE2 (5000).xls', '2020-2022_BAK Sweet_biscuits_cookies_WE3 (1400).xls']
+
+file_paths_test: ['2020-2022 BAK Bread__Bread_products_WE1 (5200).xls']
+
+delete_columns: ['Front Image', 'Back Image', 'Postal Code', 'Barcode', 'UHC', 'Address', 'City', 'Email', 'Telephone', 'USA Address', 'Method of Preparation', 'Alcohol by Volume', 'Fat (g per 100g)', 'Protein (g per 100g)', 'Carbohydrates (g per 100g)', 'Total Sugars (g per 100g)', 'Manufacturer Code', 'Patent', 'Website', 'View Details', 'Product Comments', 'Local Price/Count', 'Euro Price/Count', 'US Price/Count', 'Euro Price/Litre', 'US Price/Litre']
+
+delete_columns_test: ['Barcode']
+
+directory_to: '/commons/dsls/fine_bakery/stats_results'
+
+metadata: {"S.No." : "int64", "Product Id" : "int64", "Company" : "string", "Retailer" : "string", "Event Date" : "string", "Event" : "string", "Category" : "string", "Sub-Category" : "string", "Private Label" : "string", "Region" : "string", "Country" : "string", "Produced in" : "string", "Brand" : "string", "Product Name" : "string", "Product Description" : "string", "Claims/Features" : "string", "Extra Notes" : "string", "Positioning Category" : "string", "Positioning Sub-Category" : "string", "Flavor" : "string", "Ingredients" : "string", "Nutrition Details" : "string", "Currency" : "string", "Local Price" : "float64", "Euro Price" : "float64", "US Price" : "float64", "Euro Price/Kg" : "float64", "US Price/Kg" : "float64", "Euro Price/Pound" : "float64", "US Price/Pound" : "float64", "Local Price/Count" : "float64", "Euro Price/Count" : "float64", "US Price/Count" : "float64", "Packweight" : "float64", "Packweight Unit" : "string", "Quantity" : "float64", "Whole Packweight" : "float64", "Packaging Type" : "string", "Packaging Material" : "string", "Inner Package" : "string", "Packaging Type.1" : "string", "Packaging Material.1" : "string", "Outer Package" : "string", "Shelving Details" : "string", "Foodservice" : "string"}
