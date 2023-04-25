@@ -11,7 +11,7 @@ class LekkerSimpelScraper:
 
     def __init__(self) -> None:
         self.recipes = None
-        self.base_recep_url = 'https://www.lekkerensimpel.com/'
+        self.output_path = f"lkkr_smpl_{datetime.today().strftime('%Y-%m-%d')}.csv"
 
     def get_recipes(self):
         """
@@ -47,29 +47,3 @@ class LekkerSimpelScraper:
                     break
 
         self.recipes = list(set(recipes))
-
-    def scrape_recipes(self):
-        """
-        Scrapes all the recipes found in the get_recipes functions and
-        stores them in a CSV
-        """
-
-        # writing the header
-        with open(self.output_path, 'w') as output:  # !! Change to append !!
-            output.write("title,ingredients,directions,linksource,NER\n")
-
-            # Setting up a counter so we can track progress
-            n = 1
-
-            for recp in self.recipes[:4]:
-                scraper = scrape_me(f'https://www.lekkerensimpel.com/{recp}')
-                
-                title = scraper.title()
-                ingredients = scraper.ingredients()
-                instructions = scraper.instructions_list()
-                url = scraper.url
-
-                output.write(f'{title},"{ingredients}","{instructions}",{url}\,\n')
-
-                print(f'{n} recipes scraped')
-                n += 1
