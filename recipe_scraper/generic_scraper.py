@@ -19,3 +19,5 @@ def scrape_recipes(folder, base_url, recipe_list):
 
             n += 1
             print(f'{n} recipes scraped')
+
+# Extend this to include a csv writer i think.
