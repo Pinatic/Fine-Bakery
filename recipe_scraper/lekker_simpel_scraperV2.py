@@ -1,6 +1,4 @@
 import requests
-from recipe_scrapers import scrape_me
-from datetime import datetime
 from bs4 import BeautifulSoup
 
 
@@ -11,7 +9,8 @@ class LekkerSimpelScraper:
 
     def __init__(self) -> None:
         self.recipes = None
-        self.output_path = f"lkkr_smpl_{datetime.today().strftime('%Y-%m-%d')}.csv"
+        self.base_recep_url = 'https://www.lekkerensimpel.com/'
+
 
     def get_recipes(self):
         """
@@ -25,12 +24,12 @@ class LekkerSimpelScraper:
 
         recipes = []
 
-        for tag in tags[:2]:
+        for tag in tags:
             print(f'working on {tag}')
             page_num = 1
             page_url = f'https://www.lekkerensimpel.com/{tag}/page/{page_num}/'
 
-            while page_num < 2:
+            while True:
                 print(f'page number: {page_num}')
                 html = requests.get(page_url)
 

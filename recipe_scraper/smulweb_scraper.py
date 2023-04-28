@@ -1,14 +1,15 @@
 import requests
 import re
+import time
 
-class AlbertScraper:
+class SmulwebScraper:
     """
-    Scrapes recieps from https://www.ah.nl/allerhande/
+    Scrapes recieps from https://www.smulweb.nl
     By: Jacob Menzinga
     """
     def __init__(self) -> None:
-        self.base_search_url = 'https://www.ah.nl/allerhande/recepten-zoeken?page='
-        self.base_recipe_url = 'https://www.ah.nl/allerhande/recept/R-R/'
+        self.base_search_url = 'https://www.smulweb.nl/recepten?page='
+        self.base_recipe_url = 'https://www.smulweb.nl/recepten/'
         self.recipe_nums = None
 
     def get_numbers(self):
@@ -16,23 +17,28 @@ class AlbertScraper:
         Retrives all the recipe numbers from a range of AH recipe pages
         """
 
-        pattern = 'R-R(\d{6,7})'
+        pattern = '/(\d{7})/'
         numbers = []
-        page_num = 0
+        page_num = 1
 
         # while True:
-        while True:  # For testing, to replace with while true
+        while True:
             print(f'Page {page_num}')
 
             # getting HTML
             r = requests.get(f'{self.base_search_url}{page_num}')
 
             # checking if there's still recipes on the page
-            if 'R-R' not in r.text:
+            if 'Geen zoekresultaten gevonden.' in r.text:
                 break
 
             else:
                 numbers += set(re.findall(pattern=pattern, string=r.text))
                 page_num += 1
+                
+                time.sleep(3)
+                
 
-        self.recipe_nums = numbers
+        unique_nums = set(numbers)
+
+        self.recipe_nums = list(unique_nums)
