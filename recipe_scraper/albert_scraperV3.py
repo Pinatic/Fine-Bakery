@@ -8,7 +8,7 @@ class AlbertScraper:
     """
     def __init__(self) -> None:
         self.base_search_url = 'https://www.ah.nl/allerhande/recepten-zoeken?page='
-        self.base_recipe_url = 'https://www.ah.nl/allerhande/recept/R-R/'
+        self.base_recipe_url = 'https://www.ah.nl/allerhande/recept/R-R'
         self.recipe_nums = None
 
     def get_numbers(self):

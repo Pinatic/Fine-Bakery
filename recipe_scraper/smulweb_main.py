@@ -5,7 +5,7 @@ import time
 def main():
     smull_scraper = SmulwebScraper()
     smull_scraper.get_numbers()
-    scrape_recipes('smulweb_receps',
+    scrape_recipes('/commons/dsls/fine_bakery/scraped_recipes/smulweb_receps',
                    smull_scraper.base_recipe_url,
                    smull_scraper.recipe_nums)
 

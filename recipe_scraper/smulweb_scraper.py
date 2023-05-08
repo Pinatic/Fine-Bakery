@@ -1,6 +1,7 @@
 import requests
 import re
-import time
+# import time
+
 
 class SmulwebScraper:
     """
@@ -14,7 +15,8 @@ class SmulwebScraper:
 
     def get_numbers(self):
         """
-        Retrives all the recipe numbers from a range of AH recipe pages
+        Retrives all the recipe numbers from a range of lekker simpel
+        recipe pages
         """
 
         pattern = '/(\d{7})/'
@@ -35,9 +37,6 @@ class SmulwebScraper:
             else:
                 numbers += set(re.findall(pattern=pattern, string=r.text))
                 page_num += 1
-                
-                time.sleep(3)
-                
 
         unique_nums = set(numbers)
 

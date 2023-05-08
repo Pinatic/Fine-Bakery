@@ -6,7 +6,7 @@ def main():
     print('Scraping Lekker Simpel')
     l_s_scraper = LekkerSimpelScraper()
     l_s_scraper.get_recipes()
-    scrape_recipes('recipe_scraper/ls_receps',
+    scrape_recipes('/commons/dsls/fine_bakery/scraped_recipes/ls_receps',
                    l_s_scraper.base_recep_url,
                    l_s_scraper.recipes)
 
