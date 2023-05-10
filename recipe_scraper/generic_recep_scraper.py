@@ -1,8 +1,3 @@
-"""
-A scraper to use in conjunction with site specific scrapers.
-You need to provide this function with a folder, and the base url and 
-recipe list from site specific scrapers
-"""
 
 import time
 import json

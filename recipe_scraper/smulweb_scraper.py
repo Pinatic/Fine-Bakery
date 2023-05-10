@@ -13,31 +13,30 @@ class SmulwebScraper:
         self.base_recipe_url = 'https://www.smulweb.nl/recepten/'
         self.recipe_nums = None
 
-    def get_numbers(self):
+    def get_numbers(self, start_at=1):
         """
         Retrives all the recipe numbers from a range of lekker simpel
         recipe pages
         """
 
         pattern = '/(\d{7})/'
-        numbers = []
-        page_num = 1
+        page_num = start_at
 
-        # while True:
-        while True:
-            print(f'Page {page_num}')
+        with open('smulweb_recep_nrs.csv', 'a') as recep_file:
 
-            # getting HTML
-            r = requests.get(f'{self.base_search_url}{page_num}')
+            while True:
+                print(f'Page {page_num}')
 
-            # checking if there's still recipes on the page
-            if 'Geen zoekresultaten gevonden.' in r.text:
-                break
+                # getting HTML
+                r = requests.get(f'{self.base_search_url}{page_num}')
 
-            else:
-                numbers += set(re.findall(pattern=pattern, string=r.text))
-                page_num += 1
+                # checking if there's still recipes on the page
+                if 'Geen zoekresultaten gevonden.' in r.text:
+                    break
 
-        unique_nums = set(numbers)
+                else:
+                    numbers = re.findall(pattern=pattern, string=r.text)
+                    recep_file.write(f'{page_num},"{str(numbers)}"\n')
 
-        self.recipe_nums = list(unique_nums)
+                    page_num += 1
+
