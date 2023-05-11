@@ -18,6 +18,7 @@ class LekkerEnSimpelScraper:
         self.recipes = None
         self.base_recipe_url = 'https://www.lekkerensimpel.com/'
 
+
     def get_recipes(self, destination, start_at=1):
         """
         Goes through all the pages of all the food categories and stores the
@@ -28,8 +29,6 @@ class LekkerEnSimpelScraper:
                 'voorgerecht', 'hoofdgerechten', 'bijgerechten',
                 'nagerechten', 'salades', 'bakken']
 
-        recipes = []
-
         if not os.path.exists(destination):
             os.makedirs(destination)
 
@@ -39,9 +38,9 @@ class LekkerEnSimpelScraper:
                 for tag in tags[:2]:
                     print(f'working on {tag}')
                     page_num = start_at
-                    page_url = f'https://www.lekkerensimpel.com/{tag}/page/{page_num}/'
 
                     while page_num < 5:
+                        page_url = f'https://www.lekkerensimpel.com/{tag}/page/{page_num}/'
                         print(f'page number: {page_num}')
                         html = requests.get(page_url)
 
@@ -49,45 +48,19 @@ class LekkerEnSimpelScraper:
 
                             soup = BeautifulSoup(html.text, 'html.parser')
 
-                            [recipes.append(a['href'].split('/')[-2]) for a in
-                             (soup.find_all('a', attrs={"class": "post-item__anchor"}))]
-
+                            recipes = [a['href'].split('/')[-2] for a in (soup.find_all('a', attrs={"class": "post-item__anchor"}))]
+                            print(recipes)
+                            recep_file.write(str(recipes).strip('"[]'))
+                            page_storer.write(str(page_num)+'\n')
                             page_num += 1
 
                         else:
+                            print('THIS IS THE END!!!!')
+                            print('Just kidding, but really, \
+                                  we reached the end of the website')
                             break
 
                 self.recipes = list(set(recipes))
-
-    def get_numbers(self, destination, start_at=1):
-        """
-        Retrives all the recipe numbers from a range of lekker simpel
-        recipe pages
-        """
-
-        pattern = '/(\d{7})/'
-        page_num = start_at
-        if not os.path.exists(destination):
-            os.makedirs(destination)
-
-        with open(destination+'ls_recep_nrs.txt', 'w') as recep_file:
-            with open(destination+'ls_page_nr_reached.txt', 'w') as page_storer:
-
-                while page_num < 3:  # True for production
-                    print(f'Page {page_num}')
-
-                    # getting HTML
-                    r = requests.get(f'{self.base_search_url}{page_num}')
-
-                    # checking if there's still recipes on the page
-                    if 'Geen zoekresultaten gevonden.' in r.text:
-                        break
-
-                    else:
-                        numbers = re.findall(pattern=pattern, string=r.text)
-                        recep_file.write(str(numbers).strip('"[]'))
-                        page_storer.write(str(page_num)+'\n')
-                    page_num += 1
 
 
 class AlbertScraper:
@@ -100,32 +73,6 @@ class AlbertScraper:
         self.base_search_url = 'https://www.ah.nl/allerhande/recepten-zoeken?page='
         self.base_recipe_url = 'https://www.ah.nl/allerhande/recept/R-R'
         self.recipe_nums = None
-
-    # def get_numbers(self):
-    #     """
-    #     Retrives all the recipe numbers from a range of AH recipe pages
-    #     """
-
-        # pattern = 'R-R(\d{6,7})'
-        # numbers = []
-        # page_num = 0
-
-        # # while True:
-        # while True:  # For testing, to replace with while true
-        #     print(f'Page {page_num}')
-
-        #     # getting HTML
-        #     r = requests.get(f'{self.base_search_url}{page_num}')
-
-        #     # checking if there's still recipes on the page
-        #     if 'R-R' not in r.text:
-        #         break
-
-        #     else:
-        #         numbers += set(re.findall(pattern=pattern, string=r.text))
-        #         page_num += 1
-
-        # self.recipe_nums = numbers
 
     def get_numbers(self, destination, start_at=0):
         """
@@ -150,6 +97,9 @@ class AlbertScraper:
 
                     # checking if there's still recipes on the page
                     if 'Geen zoekresultaten gevonden.' in r.text:
+                        print('THIS IS THE END!!!!')
+                        print('Just kidding, but really, \
+                               we reached the end of the website')
                         break
 
                     else:
@@ -192,6 +142,9 @@ class SmulwebScraper:
 
                     # checking if there's still recipes on the page
                     if 'Geen zoekresultaten gevonden.' in r.text:
+                        print('THIS IS THE END!!!!')
+                        print('Just kidding, but really, \
+                               we reached the end of the website')
                         break
 
                     else:
@@ -221,7 +174,8 @@ class scrape_recipes:
 
     def create_list(self):
         with open(self.recipe_num_txt, 'r') as recep_file:
-            self.recipe_list = recep_file.readline().replace("'", "").split(',')
+            recipe_list = recep_file.readline().replace("'", "").split(', ')
+            self.recipe_list = list(set(recipe_list))
 
     def fetch_receps(self):
         n = 0
@@ -249,5 +203,3 @@ class scrape_recipes:
             else:
                 print('Recipe already scraped.')
                 continue
-
-# Extend this to include a csv writer i think.
