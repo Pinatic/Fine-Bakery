@@ -110,10 +110,12 @@ class SmulwebScraper:
 
         pattern = '/(\d{7})/'
         page_num = start_at
+        if not os.path.exists(destination):
+            os.makedirs(destination)
 
-        with open(destination+'smulweb_recep_nrs.csv', 'a') as recep_file:
+        with open(destination+'smulweb_recep_nrs.json', 'a') as recep_file:
 
-            while page_num < 5: # True for production
+            while page_num < 5:  # True for production
                 print(f'Page {page_num}')
 
                 # getting HTML
@@ -125,7 +127,8 @@ class SmulwebScraper:
 
                 else:
                     numbers = re.findall(pattern=pattern, string=r.text)
-                    recep_file.write(f'{page_num},"{str(numbers)}"\n')
+                    json.dump({page_num: numbers}, recep_file)
+                    recep_file.write('\n')
 
                     page_num += 1
 
@@ -148,16 +151,19 @@ class scrape_recipes:
         self.recipe_num_csv = recipe_num_csv
         self.recipe_list = None
 
-    def create_list(self): # THIS DONT WORK BECAUSE THE CSV IS TRASH. JSON MAYBE?!
+    def create_list(self):  # THIS DONT WORK BECAUSE THE CSV IS TRASH. JSON MAYBE?!
         # Reading in the csv
-        df = pd.read_csv(self.recipe_num_csv, header=None)
+        df = pd.read_csv(self.recipe_num_csv, header=None, delimiter='\t')
+
         # Turning the recipe identifiers into a nested list
         list_of_lists = df[1].to_list()
         # Flattening the nested list
-        flat_list = [item for sublist in list_of_lists for item in sublist]  # from https://stackoverflow.com/questions/952914/how-do-i-make-a-flat-list-out-of-a-list-of-lists
+
+        flat_list = [item for sublist in list_of_lists for item in sublist]
+        # from https://stackoverflow.com/questions/952914/how-do-i-make-a-flat-list-out-of-a-list-of-lists
 
         self.recipe_list = list(set(flat_list))
-        
+
     def fetch_receps(self):
         n = 0
         "gets the receps in a recep list"
