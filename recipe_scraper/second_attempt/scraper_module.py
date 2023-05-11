@@ -89,7 +89,7 @@ class AlbertScraper:
         with open(destination+'ah_recep_nrs.txt', 'w') as recep_file:
             with open(destination+'ah_page_nr_reached.txt', 'w') as page_storer:
 
-                while page_num < 3:  # True for production
+                while True:  # True for production
                     print(f'Page {page_num}')
 
                     # getting HTML
@@ -134,7 +134,7 @@ class SmulwebScraper:
         with open(destination+'smulweb_recep_nrs.txt', 'w') as recep_file:
             with open(destination+'smulweb_page_nr_reached.txt', 'w') as page_storer:
 
-                while page_num < 3:  # True for production
+                while True:  # True for production
                     print(f'Page {page_num}')
 
                     # getting HTML
@@ -180,7 +180,7 @@ class scrape_recipes:
     def fetch_receps(self):
         n = 0
         "gets the receps in a recep list"
-        for recep in self.recipe_list[:10]:
+        for recep in self.recipe_list:
             filename = '_'.join(recep.lower().split())+'.json'
 
             if os.path.isfile(self.folder+"/"+filename) is False:

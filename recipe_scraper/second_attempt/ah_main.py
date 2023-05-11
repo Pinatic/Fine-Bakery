@@ -1,7 +1,7 @@
 from scraper_module import *
 import asyncio
 
-folder = 'recipe_scraper/second_attempt/test/ah/'
+folder = '/commons/dsls/fine_bakery/scraped_recipes/ah/'
 
 # Get recipe nr's from website
 ah_receps = AlbertScraper()
