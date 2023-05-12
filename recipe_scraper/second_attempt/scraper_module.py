@@ -86,10 +86,10 @@ class AlbertScraper:
         if not os.path.exists(destination):
             os.makedirs(destination)
 
-        with open(destination+'ah_recep_nrs.txt', 'w') as recep_file:
-            with open(destination+'ah_page_nr_reached.txt', 'w') as page_storer:
+        with open(destination+'ah_recep_nrs.txt', 'a') as recep_file:
+            with open(destination+'ah_page_nr_reached.txt', 'a') as page_storer:
 
-                while True:  # True for production
+                while page_num < 3:  # True for production
                     print(f'Page {page_num}')
 
                     # getting HTML
@@ -131,8 +131,8 @@ class SmulwebScraper:
         if not os.path.exists(destination):
             os.makedirs(destination)
 
-        with open(destination+'smulweb_recep_nrs.txt', 'w') as recep_file:
-            with open(destination+'smulweb_page_nr_reached.txt', 'w') as page_storer:
+        with open(destination+'smulweb_recep_nrs.txt', 'a') as recep_file:
+            with open(destination+'smulweb_page_nr_reached.txt', 'a') as page_storer:
 
                 while True:  # True for production
                     print(f'Page {page_num}')
@@ -174,13 +174,15 @@ class scrape_recipes:
 
     def create_list(self):
         with open(self.recipe_num_txt, 'r') as recep_file:
-            recipe_list = recep_file.readline().replace("'", "").split(', ')
+            recipe_list = recep_file.readline()
+            recipe_list = recipe_list.replace("''", "', '")
+            recipe_list = recipe_list.replace("'", "").split(', ')
             self.recipe_list = list(set(recipe_list))
 
     def fetch_receps(self):
         n = 0
         "gets the receps in a recep list"
-        for recep in self.recipe_list:
+        for recep in self.recipe_list[:5]:
             filename = '_'.join(recep.lower().split())+'.json'
 
             if os.path.isfile(self.folder+"/"+filename) is False:
