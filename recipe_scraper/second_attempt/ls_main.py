@@ -1,5 +1,4 @@
 from scraper_module import *
-import asyncio
 
 folder = 'recipe_scraper/second_attempt/test/ls/'
 

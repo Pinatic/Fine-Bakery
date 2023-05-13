@@ -1,11 +1,10 @@
 from scraper_module import *
-import asyncio
 
 folder = '/commons/dsls/fine_bakery/scraped_recipes/ah/'
 
 # Get recipe nr's from website
 ah_receps = AlbertScraper()
-ah_receps.get_numbers(destination=folder, start_at=0)
+# ah_receps.get_numbers(destination=folder, start_at=0)
 
 # Setting recep store location
 ah_recipe_file = folder+'ah_recep_nrs.txt'

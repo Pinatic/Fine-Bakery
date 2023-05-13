@@ -182,12 +182,13 @@ class scrape_recipes:
     def fetch_receps(self):
         n = 0
         "gets the receps in a recep list"
-        for recep in self.recipe_list[:5]:
+        for recep in self.recipe_list:
             filename = '_'.join(recep.lower().split())+'.json'
 
             if os.path.isfile(self.folder+"/"+filename) is False:
-                print(f'{self.base_url}{recep}')
-                scraper = scrape_me(f'{self.base_url}{recep}')
+                # print(f'{self.base_url}{recep}')
+                scraper = scrape_me(self.base_url+recep)
+                print(self.base_url+recep)
 
                 if not os.path.exists(self.folder):
                     os.makedirs(self.folder)
@@ -205,3 +206,5 @@ class scrape_recipes:
             else:
                 print('Recipe already scraped.')
                 continue
+            
+        print('Done')

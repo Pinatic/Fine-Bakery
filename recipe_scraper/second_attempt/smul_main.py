@@ -4,7 +4,7 @@ folder = '/commons/dsls/fine_bakery/scraped_recipes/smul/'
 
 # Get recipe nr's from website
 smul_receps = SmulwebScraper()
-smul_receps.get_numbers(destination=folder, start_at=1)
+# smul_receps.get_numbers(destination=folder, start_at=1)
 
 # Setting recep store location
 smul_recipe_file = folder+'smulweb_recep_nrs.txt'
