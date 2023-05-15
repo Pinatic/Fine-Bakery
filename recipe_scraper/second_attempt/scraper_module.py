@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 from recipe_scrapers import scrape_me
 import csv
+import time
 
 
 class LekkerEnSimpelScraper:
@@ -17,7 +18,6 @@ class LekkerEnSimpelScraper:
     def __init__(self) -> None:
         self.recipes = None
         self.base_recipe_url = 'https://www.lekkerensimpel.com/'
-
 
     def get_recipes(self, destination, start_at=1):
         """
@@ -48,7 +48,8 @@ class LekkerEnSimpelScraper:
 
                             soup = BeautifulSoup(html.text, 'html.parser')
 
-                            recipes = [a['href'].split('/')[-2] for a in (soup.find_all('a', attrs={"class": "post-item__anchor"}))]
+                            recipes = [a['href'].split(
+                                '/')[-2] for a in (soup.find_all('a', attrs={"class": "post-item__anchor"}))]
                             print(recipes)
                             recep_file.write(str(recipes).strip('"[]'))
                             page_storer.write(str(page_num)+'\n')
@@ -187,24 +188,31 @@ class scrape_recipes:
 
             if os.path.isfile(self.folder+"/"+filename) is False:
                 # print(f'{self.base_url}{recep}')
-                scraper = scrape_me(self.base_url+recep)
-                print(self.base_url+recep)
+                try:
+                    scraper = scrape_me(self.base_url+recep)
+                    print(self.base_url+recep)
 
-                if not os.path.exists(self.folder):
-                    os.makedirs(self.folder)
+                    if not os.path.exists(self.folder):
+                        os.makedirs(self.folder)
 
-                with open(self.folder+"/"+filename, 'w') as output:
-                    js = scraper.to_json()
-                    json.dump(js, output, indent=4)
+                    with open(self.folder+"/"+filename, 'w') as output:
+                        js = scraper.to_json()
+                        json.dump(js, output, indent=4)
 
-                    # A counter to keep track of the nr of recipes scraped
-                    n += 1
-                    print(f'{n} recipes scraped')
+                        # A counter to keep track of the nr of recipes scraped
+                        n += 1
+                        print(f'{n} recipes scraped')
 
-                    # time.sleep(2)  # To not overask the servers
+                        # time.sleep(2)  # To not overask the servers
+
+                except Exception:
+                    # Trying it again after a minute might solve some problems.
+                    # It didn't. How i fix?
+                    print('Error thrown. Skipping recipe')
+                    continue
 
             else:
                 print('Recipe already scraped.')
                 continue
-            
+
         print('Done')
