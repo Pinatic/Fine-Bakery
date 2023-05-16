@@ -1,4 +1,4 @@
-from mp_smul_recep_fetcher import create_list, fetch_receps
+from mp_ah_recep_fetcher import create_list, fetch_receps
 import multiprocessing as mp
 
 

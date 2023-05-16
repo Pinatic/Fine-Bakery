@@ -13,4 +13,4 @@ ah_recipe_file = folder+'ah_recep_nrs.txt'
 ah_scraper = scrape_recipes(folder+'ah_receps/', ah_receps.base_recipe_url,
                             ah_recipe_file)
 ah_scraper.create_list()
-# ah_scraper.fetch_receps()
+ah_scraper.fetch_receps()
