@@ -13,6 +13,7 @@ from sklearn.metrics import mean_squared_error
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import os
+import csv
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '5'
 tf.random.set_seed(7)
 
@@ -43,9 +44,9 @@ def create_model(look_back, neurons, recurrent_dropout):
     return model
 
 
-def predict(y, dates, look_back=10, epochs=100, prediction='demand', pred_num=6, retune=False):
+def predict(y, dates, save_predictions_to, look_back=10, epochs=100, prediction='demand', pred_num=6, retune=False):
     if not retune:
-        return train_and_predict(y, dates, look_back=look_back, epochs=epochs, prediction=prediction, pred_num=pred_num)
+        return train_and_predict(y, dates, save_predictions_to, look_back=look_back, epochs=epochs, prediction=prediction, pred_num=pred_num)
     dataset = get_dataset(y, prediction).astype('float32')
     reshaped_dataset = dataset.reshape(-1, 1)
     scaler = MinMaxScaler(feature_range=(0, 1))
@@ -53,7 +54,7 @@ def predict(y, dates, look_back=10, epochs=100, prediction='demand', pred_num=6,
     X_all, Y_all = create_dataset(dataset, look_back)
     X_all = np.reshape(X_all, (X_all.shape[0], 1, X_all.shape[1]))
     best_params = tune_model(X_all, Y_all, epochs)
-    train_and_predict(y, dates, look_back=best_params['model__look_back'], epochs=epochs, prediction=prediction, pred_num=pred_num, neurons=best_params['model__neurons'], dropout=best_params['model__recurrent_dropout'])
+    train_and_predict(y, dates, save_predictions_to, look_back=best_params['model__look_back'], epochs=epochs, prediction=prediction, pred_num=pred_num, neurons=best_params['model__neurons'], dropout=best_params['model__recurrent_dropout'])
 
 
 def tune_model(X, y, epochs):
@@ -70,7 +71,7 @@ def tune_model(X, y, epochs):
     return grid_result.best_params_
 
 
-def train_and_predict(dataset, dates, look_back=10, epochs=100, prediction='demand', pred_num=6, neurons=4, dropout=0.0):
+def train_and_predict(dataset, dates, save_predictions_to, look_back=10, epochs=100, prediction='demand', pred_num=6, neurons=4, dropout=0.0):
     dataset = get_dataset(dataset, prediction)
     dataset = dataset.astype('float32')
     reshaped_dataset = dataset.reshape(-1, 1)
@@ -106,10 +107,11 @@ def train_and_predict(dataset, dates, look_back=10, epochs=100, prediction='dema
     # print('Test Score: %.2f RMSE' % (testScore))
 
     predictions, datetimes = make_predictions(pred_num, look_back, dataset, dates, model, scaler)
-    make_plot(dataset, datetimes, trainPredict, testPredict, trainScore, testScore, predictions, scaler, look_back)
+    save_predictions_to_csv(predictions, datetimes, pred_num, save_predictions_to)
+    make_plot(dataset, datetimes, trainPredict, testPredict, trainScore, testScore, predictions, scaler, look_back, prediction)
 
 
-def make_plot(dataset, datetimes, trainPredict, testPredict, trainScore, testScore, predictions, scaler, look_back):
+def make_plot(dataset, datetimes, trainPredict, testPredict, trainScore, testScore, predictions, scaler, look_back, prediction):
     predictoinsPlot = np.empty_like(dataset[:-1])
     predictoinsPlot[:, :] = np.nan
     first_val = scaler.inverse_transform(dataset[-1].reshape(-1, 1))
@@ -147,8 +149,21 @@ def make_plot(dataset, datetimes, trainPredict, testPredict, trainScore, testSco
     plt.axvline(x=datetimes[len(dataset) - 1], color='r', linestyle='dotted', label='current state')
 
     plt.legend(loc='lower right')
-    plt.gca().set(title='LSTM user demand prediction', xlabel='Months', ylabel='Launches')
+    if prediction == 'demand':
+        title = 'LSTM user demand prediction'
+    else:
+        title = 'LSTM product price prediction'
+    plt.gca().set(title=title, xlabel='Months', ylabel='Launches')
     plt.show()
+
+
+def save_predictions_to_csv(predictions, dates, pred_num, file_to_save):
+    table = {}
+    for count, date in enumerate(dates[-pred_num:]):
+        table[date] = str(predictions[count])
+    with open(file_to_save, 'w', encoding='UTF8') as f:
+        w = csv.writer(f)
+        w.writerows(map(lambda x: [x[0], x[1]], table.items()))
 
 
 def get_data_times(number, dates):

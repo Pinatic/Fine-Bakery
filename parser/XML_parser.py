@@ -3,6 +3,7 @@
 import pandas as pd
 import os
 import numpy as np
+import categorizer
 
 
 class XML_Stats():
@@ -42,6 +43,9 @@ class XML_Stats():
     def write_to_csv(self, dir_to, file_name):
         file_path = os.path.join(dir_to, file_name)
         self.df.to_csv(file_path, encoding='utf-8', index=False)
+
+    def categorize(self):
+        self.df = categorizer.clean_data(self.df)
 
     def get_dataframe(self):
         return self.df

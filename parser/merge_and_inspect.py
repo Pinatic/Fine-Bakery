@@ -151,6 +151,7 @@ def main():
     global new_xmlstats_obj
     new_xmlstats_obj = merge_xmlstats_objs(xmlstats_objs)
     write_statistics_to_file(new_xmlstats_obj, dir_to, file_path='cleared_merged_data_stats.txt')
+    new_xmlstats_obj.categorize()
     new_xmlstats_obj.write_to_csv(dir_to, file_name_to)
 
 

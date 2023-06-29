@@ -14,24 +14,13 @@ def get_config():
     return config
 
 
-def read_data():
-    config = get_config()
-    dir_to = config['directory_to']
-    file_name_to = config['cleared_data_to']
-    return pd.read_csv(os.path.join(dir_to, file_name_to), parse_dates=['Event Date'])
-
-
-def select_column_for_prediction(cleared_data, prediction):
-    if prediction == 'demand':
-        return cleared_data[['Event Date', 'Sub-Category', 'Event', 'Region']].dropna(how='any')
-    elif prediction == 'price':
-        return cleared_data[['Event Date', 'Sub-Category', 'Event', 'Euro Price/Kg']].dropna(how='any')
-    else:
-        raise Exception("Wrong prediction type. Use prediction=demand or prediction=price")
+def read_data(config):
+    file_dir = config['directory_from']
+    matching_data_file = config['data_matching_claim_file']
+    return pd.read_csv(os.path.join(file_dir, matching_data_file), parse_dates=['Event Date'])
 
 
 def get_data_for_time_series_analysis(cleared_data, event_type='all', category='all', region='all', prediction='demand'):
-    cleared_data = select_column_for_prediction(cleared_data, prediction)
     if event_type != 'all':
         cleared_data = cleared_data[cleared_data['Event'] == event_type]
     if category != 'all':
@@ -50,13 +39,19 @@ def get_data_for_time_series_analysis(cleared_data, event_type='all', category='
     return cleared_data[:-2], cleared_data['Event Date'][:-2]
 
 
-def main():
-    cleared_data = read_data()
-    y, dates = get_data_for_time_series_analysis(cleared_data, 'New Product', 'Bread & Bread Products', 'West Europe', 'demand')
-    # y, dates = get_data_for_time_series_analysis(cleared_data, prediction='price')
-    model_tuning.predict(y, dates, look_back=10, epochs=80, prediction='demand', pred_num=6, retune=False)
+def main(prediction):
+    config = get_config()
+    cleared_data = read_data(config)
+
+    file_dir = config['directory_from']
+    predictions_file = config['predictions_table']
+    save_predictions_to = os.path.join(file_dir, predictions_file)
+
+    y, dates = get_data_for_time_series_analysis(cleared_data, 'New Product', 'Bread & Bread Products', 'West Europe', prediction)
+    model_tuning.predict(y, dates, save_predictions_to, look_back=10, epochs=100, prediction=prediction, pred_num=6, retune=False)
 
 
+# demand - for claims prediction, price - for price prediction
 if __name__ == "__main__":
-    main()
+    main('demand')
 

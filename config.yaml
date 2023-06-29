@@ -11,3 +11,11 @@ cleared_data_to: 'cleared_merged_data.csv'
 recipes_from: '/commons/dsls/fine_bakery/bakery_recipes.csv'
 
 metadata: {"S.No." : "int64", "Product Id" : "int64", "Company" : "string", "Retailer" : "string", "Event Date" : "string", "Event" : "string", "Category" : "string", "Sub-Category" : "string", "Private Label" : "string", "Region" : "string", "Country" : "string", "Produced in" : "string", "Brand" : "string", "Product Name" : "string", "Product Description" : "string", "Claims/Features" : "string", "Extra Notes" : "string", "Positioning Category" : "string", "Positioning Sub-Category" : "string", "Flavor" : "string", "Ingredients" : "string", "Nutrition Details" : "string", "Currency" : "string", "Local Price" : "float64", "Euro Price" : "float64", "US Price" : "float64", "Euro Price/Kg" : "float64", "US Price/Kg" : "float64", "Euro Price/Pound" : "float64", "US Price/Pound" : "float64", "Local Price/Count" : "float64", "Euro Price/Count" : "float64", "US Price/Count" : "float64", "Packweight" : "float64", "Packweight Unit" : "string", "Quantity" : "float64", "Whole Packweight" : "float64", "Packaging Type" : "string", "Packaging Material" : "string", "Inner Package" : "string", "Packaging Type.1" : "string", "Packaging Material.1" : "string", "Outer Package" : "string", "Shelving Details" : "string", "Foodservice" : "string", "Carbohydrates (g per 100g)" : "float64"}
+
+popular_claims_num: 20
+
+popular_claims_file: "claim_matching.json"
+
+data_matching_claim_file: "matched_data.csv"
+
+predictions_table: "predictions.csv"
