@@ -36,8 +36,8 @@ def read_data(config):
     return df
 
 
-def get_config():
-    with open("./../config.yaml", 'r') as stream:
+def get_config(config):
+    with open(config, 'r') as stream:
         config = yaml.safe_load(stream)
     return config
 
@@ -213,7 +213,7 @@ def clean_data(df):
     return df
 
 
-def recreate_categories():
+def recreate_categories(config_file):
     '''
     Clean data using several cleaning functions
 
@@ -224,7 +224,7 @@ def recreate_categories():
     Author(s):
     Pieter de Jong
     '''
-    config = get_config()
+    config = get_config(config_file)
     df = read_data(config)
 
     try:
@@ -249,7 +249,7 @@ def recreate_categories():
 
 
 if __name__ == "__main__":
-    recreate_categories()
+    recreate_categories("./../config.yaml")
 
 
 

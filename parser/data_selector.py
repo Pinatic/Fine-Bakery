@@ -1,6 +1,6 @@
 # Created by asorova
 
-from categorizer import get_config, read_data
+from parser.categorizer import get_config, read_data
 import os
 import json
 
@@ -22,8 +22,8 @@ def select_column_for_prediction(cleared_data, prediction):
 
 
 # return data which matches certain claim
-def save_corresponding_dataframe(claim, prediction):
-    config = get_config()
+def save_corresponding_dataframe(config_file, claim, prediction):
+    config = get_config(config_file)
     df = read_data(config)
     claims_file = config['popular_claims_file']
     file_dir = config['directory_from']
@@ -52,4 +52,4 @@ def save_corresponding_dataframe(claim, prediction):
 
 # demand - for claims prediction, price - for price prediction
 if __name__ == "__main__":
-    save_corresponding_dataframe('recyclable packaging', 'demand')
+    save_corresponding_dataframe('./../config.yaml', 'recyclable packaging', 'demand')

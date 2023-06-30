@@ -3,7 +3,7 @@
 import pandas as pd
 import os
 import numpy as np
-import categorizer
+from parser import categorizer
 
 
 class XML_Stats():

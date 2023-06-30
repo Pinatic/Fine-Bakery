@@ -6,12 +6,12 @@ import yaml
 import re
 import string
 import os
-from XML_parser import XML_Stats
+from parser.XML_parser import XML_Stats
 import pandas as pd
 
 
-def get_config():
-    with open("./../config.yaml", 'r') as stream:
+def get_config(config_file):
+    with open(config_file, 'r') as stream:
         config = yaml.safe_load(stream)
     return config
 
@@ -120,8 +120,8 @@ def clean_data(obj, metadata):
 new_xmlstats_obj = None
 
 
-def main():
-    config = get_config()
+def parse_and_clean(config_file):
+    config = get_config(config_file)
     file_dir = config['directory_from']
     file_names = config['file_paths']
     delete_columns = config['delete_columns']
@@ -156,4 +156,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parse_and_clean("./../config.yaml")
