@@ -116,6 +116,8 @@ def main(args=None):
         recreate_categories(config_file)
 
     save_corresponding_dataframe(config_file, args.claim, args.type)
+
+    # returns figure to plot on the frontend
     do_analysis(config_file, args.type, args.region, args.numPred, args.tune)
 
 

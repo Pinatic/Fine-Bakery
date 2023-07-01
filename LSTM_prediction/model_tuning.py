@@ -44,9 +44,9 @@ def create_model(look_back, neurons, recurrent_dropout):
     return model
 
 
-def predict(y, dates, save_predictions_to, look_back=10, epochs=100, prediction='demand', pred_num=6, retune=False):
+def predict(y, dates, save_predictions_to, save_plot_to, look_back=10, epochs=100, prediction='demand', pred_num=6, retune=False):
     if not retune:
-        return train_and_predict(y, dates, save_predictions_to, look_back=look_back, epochs=epochs, prediction=prediction, pred_num=pred_num)
+        return train_and_predict(y, dates, save_predictions_to, save_plot_to, look_back=look_back, epochs=epochs, prediction=prediction, pred_num=pred_num)
     dataset = get_dataset(y, prediction).astype('float32')
     reshaped_dataset = dataset.reshape(-1, 1)
     scaler = MinMaxScaler(feature_range=(0, 1))
@@ -54,7 +54,7 @@ def predict(y, dates, save_predictions_to, look_back=10, epochs=100, prediction=
     X_all, Y_all = create_dataset(dataset, look_back)
     X_all = np.reshape(X_all, (X_all.shape[0], 1, X_all.shape[1]))
     best_params = tune_model(X_all, Y_all, epochs)
-    train_and_predict(y, dates, save_predictions_to, look_back=best_params['model__look_back'], epochs=epochs, prediction=prediction, pred_num=pred_num, neurons=best_params['model__neurons'], dropout=best_params['model__recurrent_dropout'])
+    return train_and_predict(y, dates, save_predictions_to, save_plot_to, look_back=best_params['model__look_back'], epochs=epochs, prediction=prediction, pred_num=pred_num, neurons=best_params['model__neurons'], dropout=best_params['model__recurrent_dropout'])
 
 
 def tune_model(X, y, epochs):
@@ -71,7 +71,7 @@ def tune_model(X, y, epochs):
     return grid_result.best_params_
 
 
-def train_and_predict(dataset, dates, save_predictions_to, look_back=10, epochs=100, prediction='demand', pred_num=6, neurons=4, dropout=0.0):
+def train_and_predict(dataset, dates, save_predictions_to, save_plot_to, look_back=10, epochs=100, prediction='demand', pred_num=6, neurons=4, dropout=0.0):
     dataset = get_dataset(dataset, prediction)
     dataset = dataset.astype('float32')
     reshaped_dataset = dataset.reshape(-1, 1)
@@ -108,10 +108,10 @@ def train_and_predict(dataset, dates, save_predictions_to, look_back=10, epochs=
 
     predictions, datetimes = make_predictions(pred_num, look_back, dataset, dates, model, scaler)
     save_predictions_to_csv(predictions, datetimes, pred_num, save_predictions_to)
-    make_plot(dataset, datetimes, trainPredict, testPredict, trainScore, testScore, predictions, scaler, look_back, prediction)
+    return make_plot(dataset, datetimes, save_plot_to, trainPredict, testPredict, trainScore, testScore, predictions, scaler, look_back, prediction)
 
 
-def make_plot(dataset, datetimes, trainPredict, testPredict, trainScore, testScore, predictions, scaler, look_back, prediction):
+def make_plot(dataset, datetimes, save_plot_to, trainPredict, testPredict, trainScore, testScore, predictions, scaler, look_back, prediction):
     predictoinsPlot = np.empty_like(dataset[:-1])
     predictoinsPlot[:, :] = np.nan
     first_val = scaler.inverse_transform(dataset[-1].reshape(-1, 1))
@@ -129,32 +129,38 @@ def make_plot(dataset, datetimes, trainPredict, testPredict, trainScore, testSco
     inbetween[:, :] = np.nan
     inbetween[len(trainPredict) + look_back - 1:len(trainPredict) + look_back + 1, :] = [trainPredict[-1],
                                                                                              testPredict[0]]
-    plt.figure(figsize=(20, 8))
+    fig = plt.figure(figsize=(20, 8))
+    ax = fig.add_subplot(1, 1, 1)
 
     actuals = np.append(scaler.inverse_transform(dataset),
                         np.zeros(len(datetimes) - len(scaler.inverse_transform(dataset))) * np.nan)
-    plt.plot(datetimes, actuals, label='Actual')
+    ax.plot(datetimes, actuals, label='Actual')
 
     trains = np.append(trainPredictPlot, np.zeros(len(datetimes) - len(trainPredictPlot)) * np.nan)
-    plt.plot(datetimes, trains, label='Train set: RMSE = ' + str(round(trainScore, 2)))
+    ax.plot(datetimes, trains, label='Train set: RMSE = ' + str(round(trainScore, 2)))
 
     tests = np.append(testPredictPlot, np.zeros(len(datetimes) - len(testPredictPlot)) * np.nan)
-    plt.plot(datetimes, tests, label='Test set: RMSE = ' + str(round(testScore, 2)))
+    ax.plot(datetimes, tests, label='Test set: RMSE = ' + str(round(testScore, 2)))
 
     inbetweens = np.append(inbetween, np.zeros(len(datetimes) - len(inbetween)) * np.nan)
-    plt.plot(datetimes, inbetweens, linestyle='dashed', color='blue', alpha=0.5)
+    ax.plot(datetimes, inbetweens, linestyle='dashed', color='blue', alpha=0.5)
 
-    plt.plot(datetimes, predictoinsPlot, color='blue', linewidth=3, label='Predictions')
+    ax.plot(datetimes, predictoinsPlot, color='blue', linewidth=3, label='Predictions')
 
-    plt.axvline(x=datetimes[len(dataset) - 1], color='r', linestyle='dotted', label='current state')
+    ax.axvline(x=datetimes[len(dataset) - 1], color='r', linestyle='dotted', label='current state')
 
-    plt.legend(loc='lower right')
+    ax.legend(loc='lower right')
     if prediction == 'demand':
+        ylabel = 'Launches'
         title = 'LSTM user demand prediction'
     else:
         title = 'LSTM product price prediction'
-    plt.gca().set(title=title, xlabel='Months', ylabel='Launches')
-    plt.show()
+        ylabel = 'Prices'
+    ax.set_title(title)
+    ax.set_xlabel('Months')
+    ax.set_ylabel(ylabel)
+    fig.savefig(save_plot_to)
+    return fig
 
 
 def save_predictions_to_csv(predictions, dates, pred_num, file_to_save):

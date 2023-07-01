@@ -6,6 +6,8 @@ Data matching certain claim is saved in `"directory_from"/"data_matching_claim_f
 
 Predictions table is saved in `"directory_from"/"predictions_table"` file.
 
+Predictions plot is saved in `"directory_from"/"predictions_plot"` file.
+
 "-p", "--parse" (default=False) - Whether to clean, parse and write all the data sources into one file used for the analysis. It is recommended to use if the original data was enriched with more data.
 
 "-c", "--categorize" (default=False) - Whether to regenerate the list of most popular claims. It is recommended to be True if the '--parse' flag is set to True. If '--parse' flag is set to False, '--categorize' flag may be set to True in case the desirable number of the most popular claims was changed in the config file.

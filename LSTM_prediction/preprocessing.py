@@ -46,10 +46,12 @@ def do_analysis(config_file, prediction, region, pred_num, tune):
 
     file_dir = config['directory_from']
     predictions_file = config['predictions_table']
+    predictions_plot = config['predictions_plot']
     save_predictions_to = os.path.join(file_dir, predictions_file)
+    save_plot_to = os.path.join(file_dir, predictions_plot)
 
     y, dates = get_data_for_time_series_analysis(cleared_data, 'New Product', 'all', region, prediction)
-    model_tuning.predict(y, dates, save_predictions_to, look_back=10, epochs=100, prediction=prediction, pred_num=pred_num, retune=tune)
+    return model_tuning.predict(y, dates, save_predictions_to, save_plot_to, look_back=10, epochs=100, prediction=prediction, pred_num=pred_num, retune=tune)
 
 
 # demand - for claims prediction, price - for price prediction

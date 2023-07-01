@@ -19,3 +19,5 @@ popular_claims_file: "claim_matching.json"
 data_matching_claim_file: "matched_data.csv"
 
 predictions_table: "predictions.csv"
+
+predictions_plot: "predictions_plot.png"
