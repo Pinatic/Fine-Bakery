@@ -1,7 +1,21 @@
 # Fine-Bakery
 
-Please set the values of `"directory_from"`, `"popular_claims_file"`, `"predictions_table"`, `"predictions_plot"` fields in config file. Config file is called `./config.yaml`.
+Please set the values of `"directory_from"`, `"popular_claims_file"`, `"predictions_table"`, `"predictions_plot"`, `"file_paths"`, `"delete_columns"`, `"directory_to"`, `"cleared_data_to"`, `"metadata"`, `"popular_claims_num"` fields in config file. Config file is called `./config.yaml`.
  
+`"directory_from"` is the directory with the IMCD data containing the products information.
+
+`"file_paths"` is a list of the file names in the `"directory_from"` directory to the IMCD data files.
+
+`"delete_columns"` is a list of columns that do not carry any useful information for the data analysis. 
+
+`"directory_to"` is a directory where the data statistics is gathered. This statistics is saved for every provided IMCD file after cleaning and parsing step. Also, the statistics of the final cleaned file is saved after all the IMCD data files were cleaned and merged into one file. In case it is impossible to merge the IMCD data into one file, the errors encountered by merging these files will be stored in this directory as well.
+
+`"cleared_data_to"` is a file name of the final cleaned file - the result of merging all the cleaned IMCD data files into one file.
+
+`"metadata"` is a list of rules to parse the IMCD data files. It defines the data types of certain columns. In the parsing step columns from this list are converted into the defined data types.
+
+`"popular_claims_num"` is the number of the top most popular claims found in the data.
+
 Claims categories are saved in the `"directory_from"/"popular_claims_file"` file.
 
 Data matching certain claim is saved in `"directory_from"/"data_matching_claim_file"` file.
