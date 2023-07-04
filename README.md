@@ -1,4 +1,6 @@
 # Fine-Bakery
+
+Please set the values of `"directory_from"`, `"popular_claims_file"`, `"predictions_table"`, `"predictions_plot"` fields in config file. Config file is called `./config.yaml`.
  
 Claims categories are saved in the `"directory_from"/"popular_claims_file"` file.
 
