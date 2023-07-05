@@ -1,0 +1,11 @@
+# AH
+ah_folder: '/commons/dsls/fine_bakery/scraped_recipes/ah/ah_receps/'
+ah_base_url: 'https://www.ah.nl/allerhande/recept/R-R'
+ah_identifier_output: '/commons/dsls/fine_bakery/scraped_recipes/ah/'
+ah_identifier_txt: '/commons/dsls/fine_bakery/scraped_recipes/ah/ah_recep_nrs.txt'
+
+# Smulweb
+smul_folder: '/commons/dsls/fine_bakery/scraped_recipes/smul/smul_receps/'
+smul_base_url: 'https://www.smulweb.nl/recepten/'
+smul_identifier_output: '/commons/dsls/fine_bakery/scraped_recipes/smul/'
+smul_identifier_txt: '/commons/dsls/fine_bakery/scraped_recipes/smul/smulweb_recep_nrs.txt'

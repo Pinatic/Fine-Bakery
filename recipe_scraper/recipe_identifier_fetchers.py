@@ -1,13 +1,18 @@
+"""
+This module contains a class that scrapes all the recipe identifiers from
+websites. Extending this class with a new website scrapers should not be too
+hard but it does depend on how a website is structured.
+
+By: Jacob Menzinga
+Date: 05/07/2023
+Version: 2.0
+"""
 import requests
 from bs4 import BeautifulSoup
 import re
 import json
 import os
-import pandas as pd
-import numpy as np
 from recipe_scrapers import scrape_me
-import csv
-import time
 
 
 class LekkerEnSimpelScraper:
@@ -77,8 +82,11 @@ class AlbertScraper:
 
     def get_numbers(self, destination, start_at=0):
         """
-        Retrives all the recipe numbers from a range of lekker simpel
-        recipe pages
+        Retrives all the recipe numbers from a range of ah.nl/allerhande recipe 
+        pages and stores them in a text file.
+
+        In a seperate file it keeps track of the page number it reached so if
+        the program crashes it can continue where it left off
         """
 
         pattern = 'R-R(\d{6,7})'
@@ -123,8 +131,11 @@ class SmulwebScraper:
 
     def get_numbers(self, destination, start_at=1):
         """
-        Retrives all the recipe numbers from a range of lekker simpel
-        recipe pages
+        Retrives all the recipe numbers from a range of smulweb recipe pages
+        and stores them in a text file.
+
+        In a seperate file it keeps track of the page number it reached so if
+        the program crashes it can continue where it left off
         """
 
         pattern = '/(\d{7})/'
