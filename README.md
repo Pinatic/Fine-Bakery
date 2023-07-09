@@ -46,3 +46,7 @@ Command to start an application for the first time:
 Next time if the data was not enriched and config file was not changed, parameters -p and -c can be omitted to boost the performance of the application. Parameter -tu is recommended to be always set.
 
     python3 main.py -t='demand' -cl='recyclable packaging' -r='West Europe' -tu -n=6
+
+In the case of ingredient replacement download Back_end ,Download precomputed file ing_replace_result4 and config  from DSLS ,run nested_functionality.py
+    
+    
