@@ -159,7 +159,7 @@ def make_plot(dataset, datetimes, save_plot_to, trainPredict, testPredict, train
     ax.set_title(title)
     ax.set_xlabel('Months')
     ax.set_ylabel(ylabel)
-    fig.savefig(save_plot_to, dpi=300)
+    fig.savefig(save_plot_to, dpi=1200)
     return fig
 
 
