@@ -1,4 +1,8 @@
-# Created by asorova
+"""
+In this module the dataframe corresponding to the provided parameters is selected and saved to the csv file
+
+By: Anna Sorova
+"""
 
 from parser.categorizer import get_config, read_data
 import os
@@ -6,6 +10,16 @@ import json
 
 
 def product_matches_claims(product_claims, selected_claims):
+    """
+    Checks if provided claim exists in the top claims
+
+    Args:
+        product_claims (list): all claims corresponding to certain product
+        selected_claims (list): all claims within the selected claim category
+
+    Returns:
+        b (bool) - return is there is at least one overlapping claim in product_claims and selected_claims lists
+    """
     for claim in selected_claims:
         if claim in product_claims:
             return True
@@ -13,6 +27,13 @@ def product_matches_claims(product_claims, selected_claims):
 
 
 def select_column_for_prediction(cleared_data, prediction):
+    """
+    Gets the dataframe corresponding to the provided prediction type
+
+    Args:
+        cleared_data (dataframe): dataframe of the original data
+        prediction (str): type of prediction. There are 2 types - demand and price. Demand - for claims prediction, price - for price prediction
+    """
     if prediction == 'demand':
         return cleared_data[['Event Date', 'Sub-Category', 'Event', 'Region']].dropna(how='any')
     elif prediction == 'price':
@@ -23,6 +44,14 @@ def select_column_for_prediction(cleared_data, prediction):
 
 # return data which matches certain claim
 def save_corresponding_dataframe(config_file, claim, prediction):
+    """
+    Gets the dataframe corresponding to the provided parameters and saves it into the csv file
+
+    Args:
+        config_file (str): path to the configuration file
+        claim (str): claim to get the corresponding data for prediction
+        prediction (str): type of prediction. There are 2 types - demand and price. Demand - for claims prediction, price - for price prediction
+    """
     config = get_config(config_file)
     df = read_data(config)
     claims_file = config['popular_claims_file']
@@ -50,6 +79,5 @@ def save_corresponding_dataframe(config_file, claim, prediction):
     df.to_csv(save_to)
 
 
-# demand - for claims prediction, price - for price prediction
 if __name__ == "__main__":
     save_corresponding_dataframe('./../config.yaml', 'recyclable packaging', 'demand')

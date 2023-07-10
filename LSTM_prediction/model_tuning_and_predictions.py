@@ -1,4 +1,8 @@
-# Created by asorova
+"""In this module LSTM model is tuned, predictions are made and resulting plot and the table with future values are
+persisted on the local machine
+
+By: Anna Sorova
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -19,6 +23,19 @@ tf.random.set_seed(7)
 
 
 def create_dataset(dataset, look_back=1):
+    """
+    For each data point starting with the N+1 datapoint this function returns the list of the N
+    previous observations (where N = loop back) as the first output parameter and the current observation as the
+    second output parameter.
+
+    Args:
+        dataset (sized): original data corresponding to the certain claim category
+        look_back(int): number of past observations used as predictors
+
+    Returns:
+        x (list): list of lists of N previous observations
+        y (list): current observations starting from N+1 datapoint
+    """
     dataX, dataY = [], []
     for i in range(len(dataset)-look_back):
         a = dataset[i:(i+look_back), 0]
@@ -28,6 +45,17 @@ def create_dataset(dataset, look_back=1):
 
 
 def get_dataset(dataset, prediction):
+    """
+    Get the values to be predicted according to the prediction type ('demand' for the demand prediction, 'price' for
+    the price prediction)
+
+    Args:
+        dataset (sized): original data corresponding to the certain claim category
+        prediction(str): type of prediction ('demand' or 'price')
+
+    Returns:
+        x (list): values to be predicted
+    """
     if prediction == 'demand':
         return dataset['Launches']. values
     elif prediction == 'price':
@@ -37,6 +65,17 @@ def get_dataset(dataset, prediction):
 
 
 def create_model(look_back, neurons, recurrent_dropout):
+    """
+    Create a one-layered LSTM model considering input parameters
+
+    Args:
+        look_back (int): number of past observations to be used as predictors
+        neurons(int): number of neurons to be used in the LSTM layer
+        recurrent_dropout(int): recurrent dropout rate for the LSTM layer
+
+    Returns:
+        model (obj): ML model
+    """
     model = Sequential()
     model.add(LSTM(neurons, input_shape=(1, look_back), recurrent_dropout=recurrent_dropout))
     model.add(Dense(1))
@@ -45,6 +84,24 @@ def create_model(look_back, neurons, recurrent_dropout):
 
 
 def predict(y, dates, save_predictions_to, save_plot_to, look_back=10, epochs=100, prediction='demand', pred_num=6, retune=False):
+    """
+    Creates the LSTM model, tunes it if needed, makes predictions and persists resulting plot and the table with
+    future values on the local machine.
+
+    Args:
+        y(list): data to be predicted
+        dates(list): list of corresponding timestamps
+        save_predictions_to (str): path to the file where the table with the future predictions should be saved
+        save_plot_to(str): path to the file where the plot with the future predictions should be saved
+        look_back (int): number of past observations to be used as predictors
+        epochs(int): number of epochs to use in the LSTM model
+        prediction(str): type of prediction - 'demand' for demand prediction, 'price' for price prediction
+        pred_num(int): number of future values to predict
+        retune(bool): indicates if the model should be automatically tuned
+
+    Returns:
+        fig (figure): returns matplotlib figure that can be shown on the screen
+    """
     if not retune:
         return train_and_predict(y, dates, save_predictions_to, save_plot_to, look_back=look_back, epochs=epochs, prediction=prediction, pred_num=pred_num)
     dataset = get_dataset(y, prediction).astype('float32')
@@ -58,6 +115,19 @@ def predict(y, dates, save_predictions_to, save_plot_to, look_back=10, epochs=10
 
 
 def tune_model(X, y, epochs):
+    """
+    LSTM model is created and tuned using GridSearchCV
+
+    Args:
+        X (sized): normalized and preprocessed list of N previous observations where N is the number of past
+    observations used as predictors
+        y(sized): current observations starting from N+1 datapoint where N is the number of past
+    observations used as predictors
+        epochs(int): number of epochs to use in the LSTM model
+
+    Returns:
+        best_params_ (list): list of the best parameters for the model
+    """
     model = KerasRegressor(model=create_model, epochs=epochs, batch_size=10, verbose=0)
     look_backs = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
     neurons = [4, 5, 6, 7, 8]
@@ -72,6 +142,25 @@ def tune_model(X, y, epochs):
 
 
 def train_and_predict(dataset, dates, save_predictions_to, save_plot_to, look_back=10, epochs=100, prediction='demand', pred_num=6, neurons=4, dropout=0.0):
+    """
+    Creates the LSTM model with provided parameters, makes predictions and persists resulting plot and the table with
+    future values on the local machine.
+
+    Args:
+        dataset(list): data to be predicted
+        dates(list): list of corresponding timestamps
+        save_predictions_to (str): path to the file where the table with the future predictions should be saved
+        save_plot_to(str): path to the file where the plot with the future predictions should be saved
+        look_back (int): number of past observations to be used as predictors
+        epochs(int): number of epochs to use in the LSTM model
+        prediction(str): type of prediction - 'demand' for demand prediction, 'price' for price prediction
+        pred_num(int): number of future values to predict
+        neurons(int): number of neurons to be used in the LSTM layer
+        dropout(int): recurrent dropout rate for the LSTM layer
+
+    Returns:
+        fig (figure): returns matplotlib figure that can be shown on the screen
+    """
     dataset = get_dataset(dataset, prediction)
     dataset = dataset.astype('float32')
     reshaped_dataset = dataset.reshape(-1, 1)
@@ -112,6 +201,26 @@ def train_and_predict(dataset, dates, save_predictions_to, save_plot_to, look_ba
 
 
 def make_plot(dataset, datetimes, save_plot_to, trainPredict, testPredict, trainScore, testScore, predictions, scaler, look_back, prediction):
+    """
+    Creates plot of the actual data, predicted value for the both training and testing datasets and the predicted
+    future values. Persists plot on the local machine.
+
+    Args:
+        dataset(list): data to be predicted
+        datetimes(list): list of corresponding timestamps
+        save_plot_to(str): path to the file where the plot with the future predictions should be saved
+        trainPredict(list): predicted training dataset
+        testPredict(list): predicted testing dataset
+        trainScore(int): mean_squared_error of the predicted training dataset
+        testScore(int): mean_squared_error of the predicted testing dataset
+        predictions(list): list of the predicted future values
+        scaler(obj): scaler used for scaling dataset before training the model.
+        look_back (int): number of past observations to be used as predictors
+        prediction(str): type of prediction - 'demand' for demand prediction, 'price' for price prediction
+
+    Returns:
+        fig (figure): returns matplotlib figure that can be shown on the screen
+    """
     predictoinsPlot = np.empty_like(dataset[:-1])
     predictoinsPlot[:, :] = np.nan
     first_val = scaler.inverse_transform(dataset[-1].reshape(-1, 1))
@@ -164,6 +273,15 @@ def make_plot(dataset, datetimes, save_plot_to, trainPredict, testPredict, train
 
 
 def save_predictions_to_csv(predictions, dates, pred_num, file_to_save):
+    """
+    Saves predicted future values table to the file on the local machine
+
+    Args:
+        predictions(list): list of the predicted future values
+        dates(list): list of corresponding timestamps
+        pred_num(int): number of future values to predict
+        file_to_save(str): path to the file where the table with the future predictions should be saved
+    """
     table = {}
     for count, date in enumerate(dates[-pred_num:]):
         table[date] = str(predictions[count])
@@ -173,12 +291,36 @@ def save_predictions_to_csv(predictions, dates, pred_num, file_to_save):
 
 
 def get_data_times(number, dates):
+    """
+    Gets the list of the timestamps for the actual values and the future values
+
+    Args:
+        number(int): number of future values to predict
+        dates(list): list of corresponding timestamps
+    Returns:
+        l (list): list of timestamps for the actual values and the future values
+    """
     d = dates[len(dates)-1]
     list_dates = [d + relativedelta(months=+month_num) for month_num in range(1, number+1)]
     return np.append([date for date in dates], list_dates)
 
 
 def make_predictions(number, look_back, dataset, dates, model, scaler):
+    """
+    Makes predictions using trained model
+
+    Args:
+        number(int): number of future values to predict
+        look_back (int): number of past observations to be used as predictors
+        dataset(list): actual data used for model training and testing
+        dates(list): list of actual timestamps
+        model(obj): trained LSTM model
+        scaler(obj): scaler used for scaling dataset before training the model.
+
+    Returns:
+        actuals (list): list of the actual values and the future values
+        dates(list): list of timestamps for the actual values and the future values
+    """
     actuals = []
     last_observations = dataset[-look_back:]
     last_observations = last_observations.reshape(1, -1)
