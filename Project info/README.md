@@ -1,0 +1,1 @@
+This directory contains the IMCD group project proposal. It describes the IMCD business activities, main objectives of the project and expected results.
