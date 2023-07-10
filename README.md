@@ -47,6 +47,10 @@ Next time if the data was not enriched and config file was not changed, paramete
 
     python3 main.py -t='demand' -cl='recyclable packaging' -r='West Europe' -tu -n=6
 
-In the case of ingredient replacement download Back_end ,Download precomputed file ing_replace_result4 and config  from DSLS ,run nested_functionality.py
+To get the suitable replacement for the certain ingredient, run the `nested_functionality.py` script in the Back_end directory. Before running the script, provide the config.json file in the Back_end directory with the access key to ChatGPT API and the path to the ing_replace_result4.json file containing the functionalities list of replacement candidates for a given ingredient. Run the script with the comand:
+
+    python3 nested_functionality.py -i='Egg'
+
+where the flag -i (--ingredient) represents the ingredient to be replaced.
     
     
