@@ -3,6 +3,8 @@ import nest_asyncio
 import json
 from tabulate import tabulate
 import aiohttp
+import argparse
+import sys
 
 nest_asyncio.apply()
 import json
@@ -11,11 +13,13 @@ with open('config.json', 'r') as config_file:
     config = json.load(config_file)
 
 API_KEY = config.get('API_KEY')
+functionalities_file_path = config.get('functionalities_file_path')
 url = 'https://api.openai.com/v1/chat/completions'
 header = {
     'Content-Type': 'application/json',
     'Authorization': f'Bearer {API_KEY}'
 }
+
 
 async def get_functionality(session, ingredient, replacement):
     """
@@ -33,7 +37,8 @@ async def get_functionality(session, ingredient, replacement):
     data = {
         "model": "gpt-3.5-turbo",
         "messages": [
-            {"role": "user", "content": f"functionality of {replacement['candidate']} as an {ingredient} replacement in bakery!"}
+            {"role": "user",
+             "content": f"functionality of {replacement['candidate']} as an {ingredient} replacement in bakery!"}
         ],
         "temperature": 0.7
     }
@@ -50,10 +55,12 @@ async def get_functionality(session, ingredient, replacement):
             return {
                 'candidate': replacement['candidate'],
                 'distance': replacement.get('distance', 'N/A'),
-                'functionality': ', '.join(functionality_keywords) if functionality_keywords else 'No specific functionality'
+                'functionality': ', '.join(
+                    functionality_keywords) if functionality_keywords else 'No specific functionality'
             }
         except KeyError:
             return None
+
 
 async def get_ingredient_functionality(ingredient):
     """
@@ -62,7 +69,7 @@ async def get_ingredient_functionality(ingredient):
     Args:
         ingredient (str): The ingredient to replace.
     """
-    with open('ing_replace_result4.json', 'r') as file:
+    with open(functionalities_file_path, 'r') as file:
         ingredient_dict = json.load(file)
 
     replacements = ingredient_dict.get(ingredient, [])
@@ -71,10 +78,10 @@ async def get_ingredient_functionality(ingredient):
         return
 
     print(f"{ingredient}:")
-    
+
     async with aiohttp.ClientSession() as session:
         tasks = []
-        
+
         for replacement in replacements:
             tasks.append(get_functionality(session, ingredient, replacement))
 
@@ -82,11 +89,12 @@ async def get_ingredient_functionality(ingredient):
         results = [result for result in results if result is not None]
 
         sorted_results = sorted(results, key=lambda x: x['distance'])
-        
+
         table_headers = ['Candidate', 'Distance', 'Functionality']
         table_data = [[result['candidate'], result['distance'], result['functionality']] for result in sorted_results]
 
         print(tabulate(table_data[:5], headers=table_headers, tablefmt='grid'))
+
 
 def run_ingredient_functionality(ingredient):
     """
@@ -97,5 +105,31 @@ def run_ingredient_functionality(ingredient):
     """
     asyncio.run(get_ingredient_functionality(ingredient))
 
-# Example usage
-run_ingredient_functionality("Egg")
+
+def parse_args(args):
+    """
+        Parses the command line arguments
+
+        Args:
+            args (list): Command line parameters
+        """
+    parser = argparse.ArgumentParser(
+        description="Set an ingredient"
+    )
+    parser.add_argument(
+        "-i",
+        "--ingredient",
+        type=str,
+        required=True,
+        help="The ingredient for which the suitable replacements should be found"
+    )
+    return parser.parse_args(args)
+
+
+def main(args=None):
+    args = parse_args(args)
+    run_ingredient_functionality(args.ingredient)
+
+
+if __name__ == "__main__":
+    sys.exit(main())
