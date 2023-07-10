@@ -1,6 +1,27 @@
 # Fine-Bakery
 
-Please set the values of `"directory_from"`, `"popular_claims_file"`, `"predictions_table"`, `"predictions_plot"`, `"file_paths"`, `"delete_columns"`, `"directory_to"`, `"cleared_data_to"`, `"metadata"`, `"popular_claims_num"` fields in config file. Config file is called `./config.yaml`.
+Alternatives to animal-based products are getting more popular, and the supply chain is weakening. This leads to a higher demand for food producers to offer alternative ingredients in recipes while retaining the product's qualities. Meeting the evolving demands of customers has become an increasingly intricate task since the process of finding suitable substitutes requires a deep understanding of the chemical and sensory properties of the ingredient and any potential substitutes. This project was created to help with this task.
+
+Firstly, we propose and evaluate a method for predicting suitable replacement ingredients using a network created with NetworkX and embedded using node2vec based on Euclidean distance. Secondly, we aim to create and evaluate a robust predictive model for trend predictions using a Long Short-Term Memory (LSTM) neural network. 
+
+## Trend prediction
+
+The proprietary data received from IMCD contains information about the products released by the company and their characteristics, such as the product category, country of the end customer, product price, and the date of a new product’s launch. To predict user demand patterns, time series data of newly launched products was used. An average monthly price of the products within one claim category was used for the product affordability prediction.
+
+To run trend prediction pipeline you should run the main.py script in the root directory. It performs several steps in a strict order.
+
+### Trend prediction pipeline:
+
+1) Parsing and cleaning raw data. Code responsible for this functionality can be found in the `parser/XML_parser.py` and `parser/merge_and_inspect.py`files.
+2) Claim categorization. Corresponding code can be found in the `parser/categorizer.py` file.
+3) Selecting data matching the claim category. Code responsible for this functionality can be found in the `parser/data_selector.py`.
+4) ML model tuning and making predictions with persisting the results (trend plot and table with predicted values) on the local machine. Corresponding code can be found in the `LSTM_prediction/preprocessing.py` and `LSTM_prediction/model_tuning.py` files.
+
+To run the script, the configuration file should be correctly set up.
+
+Please set the values of `"directory_from"`, `"popular_claims_file"`, `"predictions_table"`, `"predictions_plot"`, `"file_paths"`, `"delete_columns"`, `"directory_to"`, `"cleared_data_to"`, `"metadata"`, `"popular_claims_num"` fields in configuration file. Configuration file is called `./config.yaml` in the root directory.
+
+### Explanation of the configuration parameters:
  
 `"directory_from"` is the directory with the IMCD data containing the products information.
 
@@ -24,6 +45,10 @@ Predictions table is saved in `"directory_from"/"predictions_table"` file.
 
 Predictions plot is saved in `"directory_from"/"predictions_plot"` file.
 
+To run the script you should provide the command line flags to the script. 
+
+### Command line flags:
+
 "-p", "--parse" (default=False) - Whether to clean, parse and write all the data sources into one file used for the analysis. It is recommended to use if the original data was enriched with more data.
 
 "-c", "--categorize" (default=False) - Whether to regenerate the list of most popular claims. It is recommended to be True if the '--parse' flag is set to True. If '--parse' flag is set to False, '--categorize' flag may be set to True in case the desirable number of the most popular claims was changed in the config file.
@@ -38,16 +63,19 @@ Predictions plot is saved in `"directory_from"/"predictions_plot"` file.
 
 "-n", "--numPred" (default=6) - The number of data points to be predicted in the future.
 
+### Commands to start an application
 
-Command to start an application for the first time:
+To start an application for the first time, use the command:
 
     python3 main.py -p -c -t='demand' -cl='recyclable packaging' -r='West Europe' -tu -n=6
 
-Next time if the data was not enriched and config file was not changed, parameters -p and -c can be omitted to boost the performance of the application. Parameter -tu is recommended to be always set.
+Next time if the data was not enriched and config file was not changed, parameters -p and -c can be omitted to boost the performance of the application. Parameter -tu is recommended to be always set. Corresponding command:
 
     python3 main.py -t='demand' -cl='recyclable packaging' -r='West Europe' -tu -n=6
 
-To get the suitable replacement for the certain ingredient, run the `nested_functionality.py` script in the Back_end directory. Before running the script, provide the config.json file in the Back_end directory with the access key to ChatGPT API and the path to the ing_replace_result4.json file containing the functionalities list of replacement candidates for a given ingredient. Run the script with the comand:
+## Ingredient replacement
+
+To get the suitable replacement for the certain ingredient, run the `nested_functionality.py` script in the Back_end directory. Before running the script, provide the config.json file in the Back_end directory with the access key to ChatGPT API and the path to the file containing the functionalities list of replacement candidates for a given ingredient. Run the script with the comand:
 
     python3 nested_functionality.py -i='Egg'
 
