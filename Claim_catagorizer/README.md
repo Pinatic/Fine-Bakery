@@ -1,1 +1,1 @@
-Code in this directory was created for testing purposes. It explores the possible ways of categorizing the product claims and persisting the results on a local machine. This file is not called from the main script.
+Code in this directory was created for testing purposes. It explores the possible ways of categorizing the product claims and persisting the results on a local machine. Files in this directory are not called from the main script.
