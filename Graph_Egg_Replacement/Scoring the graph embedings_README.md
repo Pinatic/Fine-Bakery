@@ -32,7 +32,7 @@ The first script (`extract_ingredients.py`) extracts ingredient names and catego
 
 ### Step 2: Calculate Euclidean Distances
 
-The second script (`calculate_and_save_euclidean_distances.py`) calculates the Euclidean distances between ingredient embeddings and saves the results to a file. Follow these steps:
+The second script (`scoring the graph embedings.py`) calculates the Euclidean distances between ingredient embeddings and saves the results to a file. Follow these steps:
 
 1. Place your ingredient embedding file (in pickle format, `*.pkl`) in the specified location.
 2. Update the path to your ingredient embedding file in the script.
