@@ -79,3 +79,4 @@ Here's an example usage scenario:
 
 Please note that some functions may require specific files or configurations to be present. Ensure that the necessary files and configurations are available before running the corresponding functions.
 
+All code in this and subfolders is written by Lillie sadat hosseini japalagh If there are any questions you can contact me at g.s.hosseini.japalagh@st.hanze.nl
