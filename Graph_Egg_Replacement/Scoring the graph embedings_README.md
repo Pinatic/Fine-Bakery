@@ -59,4 +59,4 @@ The third script (`find_replacements`) finds ingredient replacements based on th
 
 
 3. The script will print the replacements for the specified ingredient, excluding the input ingredient and any replacements with a distance of 0.0.
-
+All code in this and subfolders is written by Lillie sadat hosseini japalagh If there are any questions you can contact me at g.s.hosseini.japalagh@st.hanze.nl
