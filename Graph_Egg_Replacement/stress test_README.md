@@ -56,3 +56,4 @@ Please note that the execution times may vary depending on your system's perform
 ## Conclusion
 
 The `stress test` script provides a convenient way to calculate the Euclidean distances between ingredient embeddings and save the results. 
+All code in this and subfolders is written by Lillie sadat hosseini japalagh If there are any questions you can contact me at g.s.hosseini.japalagh@st.hanze.nl
