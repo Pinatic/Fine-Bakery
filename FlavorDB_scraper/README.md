@@ -52,5 +52,6 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
+All code in this and subfolders is written by Hedieh Zabolinejad If there are any questions you can contact me at h.zabolinezhad@st.hanze.nl
 
 
