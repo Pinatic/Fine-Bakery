@@ -70,5 +70,5 @@ json
 
 - Adjust the `temperature` value in the `get_functionality` method (inside `FlavorDataScraper` class) to modify the response randomness. Higher values (e.g., 0.7) result in more random responses, while lower values (e.g., 0.2) make the responses more focused and deterministic.
 
-
+All code in this and subfolders is written by Lillie sadat hosseini japalagh If there are any questions you can contact me at g.s.hosseini.japalagh@st.hanze.nl
 
