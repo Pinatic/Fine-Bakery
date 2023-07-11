@@ -8,7 +8,7 @@ import yaml
 import pandas as pd
 import os
 import warnings
-from LSTM_prediction import model_tuning
+from LSTM_prediction import model_tuning_and_predictions
 
 warnings.filterwarnings("ignore")
 
