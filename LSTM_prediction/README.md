@@ -8,3 +8,4 @@ If it is set to False, the model is trained with the default values: look_back (
 The dataset is split into the training and testing sets, which constitutes 67% and 33% of the data, respectively. The model seeks to minimize the mean squared error (MSE) and employs an Adam optimization algorithm. After the model is trained on the training dataset, it predicts the values of the testing datasets for model validation purposes and a defined number of future points. To assess the accuracy of predictions for both training and testing datasets, the root-mean-square error (RMSE) is used.
 The predictions are plotted alongside the actual values and saved on a local machine. Predicted values are saved in a table and persisted as well for future use.
 
+All files in this directory are written by Anna Sorova. If there are any questions you can contact me at anyabalerina@gmail.com.

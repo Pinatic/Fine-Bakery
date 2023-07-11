@@ -7,3 +7,5 @@ The `categorizer.py` file is responsible for categorizing the product claims. Af
 The `data_selector.py` file is responsible for selecting the data matching one of the most popular product claims. Selected data is stored in a file and persisted on a local machine. This module is called every time the trend prediction pipeline is run - this is a mandatory step.
 
 The `XML_parser.py` file represents the object that reads and parses the raw data, merges and collects the statistics of the cleaned data. It is used in a `merge_and_inspect.py` file to work with the raw data.
+
+All files in this directory are written by Anna Sorova. If there are any questions you can contact me at anyabalerina@gmail.com.

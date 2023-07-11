@@ -15,3 +15,4 @@ The `LSTM_forecast.ipynb` file is responsible for building the LSTM model, tunin
 
 
 Files in this directory are not called from the main script.
+All files in this directory are written by Anna Sorova. If there are any questions you can contact me at anyabalerina@gmail.com.
