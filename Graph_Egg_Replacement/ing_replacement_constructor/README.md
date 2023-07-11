@@ -106,3 +106,4 @@ Feel free to explore and modify the code according to your specific requirements
 ## Conclusion
 
 The `IngredientReplacer` class provides a powerful and flexible solution for finding ingredient replacements. By following the setup instructions and utilizing the provided methods, you can easily integrate the ingredient replacement functionality into your own Python projects and applications.
+All code in this and subfolders is written by Hedieh Zabolinejad If there are any questions you can contact me at h.zabolinezhad@st.hanze.nl
