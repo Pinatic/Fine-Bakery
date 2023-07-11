@@ -25,7 +25,7 @@ This project analyzes ingredient data to create a graph based on shared flavors,
 
 3. Prepare the JSON data:
 
-   - Place the `integrated_data.json` file in the specified path: `C:/Users/ghaza/Downloads/`
+   - Place the `integrated_data.json` file in the main directory of the Graph_FlavorDB.ipynb
 
 4. Run the code:
 

@@ -12,7 +12,7 @@ Ensure you have the following dependencies installed:
 - API key
 ## Setup
 
-1. Install the required dependencies by running `pip install -r requirements.txt`.
+1. Install the required dependencies by running pip install the requirments.
 2. Obtain an API key from OpenAI. Make sure to have it available for authentication.
 
 ## Configuration
