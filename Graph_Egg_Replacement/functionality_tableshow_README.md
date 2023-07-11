@@ -54,4 +54,5 @@ To use the script, follow these steps:
 - The `ing_replace_result4.json` file should contain the replacement candidates for each ingredient. Adjust the file path as needed.
 - The script includes a delay of 30 seconds between API requests to comply with OpenAI's rate limits. You can adjust this delay if needed.
 - The resulting functionality information is displayed in a tabular format using the `tabulate` library.
+- All code in this and subfolders is written by Lillie sadat hosseini japalagh If there are any questions you can contact me at g.s.hosseini.japalagh@st.hanze.nl
 
