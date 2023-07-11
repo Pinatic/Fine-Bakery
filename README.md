@@ -4,6 +4,14 @@ Alternatives to animal-based products are getting more popular, and the supply c
 
 Firstly, we propose and evaluate a method for predicting suitable replacement ingredients using a network created with NetworkX and embedded using node2vec based on Euclidean distance. Secondly, we aim to create and evaluate a robust predictive model for trend predictions using a Long Short-Term Memory (LSTM) neural network. 
 
+## Set up virtual environment
+
+To run the script in this directory you have to use certain Python modules. Please create your own virtual environment with the modules listed in requirements.txt to execute the applications.
+
+After you have created your environment and activated it, please install the requirements in this environment with the command:
+
+    pip install -r requirements.txt
+
 ## Trend prediction
 
 The proprietary data received from IMCD contains information about the products released by the company and their characteristics, such as the product category, country of the end customer, product price, and the date of a new product’s launch. To predict user demand patterns, time series data of newly launched products was used. An average monthly price of the products within one claim category was used for the product affordability prediction.
