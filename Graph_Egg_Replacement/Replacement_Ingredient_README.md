@@ -56,7 +56,7 @@ To use the script, follow these steps:
 
 3. Run the script:
 
-   python main.py
+   Replacement_Ingredient.py
   
 
 ## Example

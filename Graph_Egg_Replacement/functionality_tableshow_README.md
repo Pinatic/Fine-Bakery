@@ -35,7 +35,7 @@ To use the script, follow these steps:
 2. Run the script:
 
    
-   python main.py
+  functionality_tableshow.py
    
 
 3. The script will retrieve the functionality of replacement candidates for the specified ingredient and display the results in a tabular format.
