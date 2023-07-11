@@ -19,7 +19,7 @@ pip install numpy scikit-learn
 
 ### Step 1: Extract Ingredient Names and Categories
 
-The first script (`extract_ingredients.py`) extracts ingredient names and categories from a JSON file. Follow these steps:
+The first script (`extract_ingredients`) extracts ingredient names and categories from a JSON file. Follow these steps:
 
 1. Update the path to your input JSON file (`integrated_data.json`) in the script.
 2. Specify the desired output file path in the `output_file` variable.
@@ -32,7 +32,7 @@ The first script (`extract_ingredients.py`) extracts ingredient names and catego
 
 ### Step 2: Calculate Euclidean Distances
 
-The second script (`scoring the graph embedings.py`) calculates the Euclidean distances between ingredient embeddings and saves the results to a file. Follow these steps:
+The second script (`calculate_and_save_euclidean_distance`) calculates the Euclidean distances between ingredient embeddings and saves the results to a file. Follow these steps:
 
 1. Place your ingredient embedding file (in pickle format, `*.pkl`) in the specified location.
 2. Update the path to your ingredient embedding file in the script.
@@ -40,14 +40,14 @@ The second script (`scoring the graph embedings.py`) calculates the Euclidean di
 4. Run the script:
 
 
-   python calculate_and_save_euclidean_distances.py
+   python calculate_and_save_euclidean_distances
  
 
 5. The script will calculate the Euclidean distances between ingredient embeddings and save them to the specified output file (`distance_table.txt`).
 
 ### Step 3: Find Ingredient Replacements
 
-The third script (`find_replacements.py`) finds ingredient replacements based on the calculated distances and category data. Follow these steps:
+The third script (`find_replacements`) finds ingredient replacements based on the calculated distances and category data. Follow these steps:
 
 1. Update the input variables in the script:
    - `ingredient`: The ingredient for which you want to find replacements.
