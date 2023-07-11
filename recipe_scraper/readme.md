@@ -4,8 +4,8 @@ Then you can run get_recipes.py to scrape the recipes. This will create a json f
 
 At the moment only ah.nl and smulweb are supported. If you want to scrape other websites you need to figure out how to get the recipe identifiers. The code in 'recipe_identifier_fetchers.py' can be used as a starting point. Once you've got the identifiers you can use the 'get_recipes.py' file to scrape the recipes.
 
-In the subfolders are older versions of the scraper, I've left them in for reference.
-All in this and subfolders is written by Jacob Menzinga
+In the subfolders are older versions of the scraper, I've left them in for reference. <br>
+All code in this and subfolders is written by Jacob Menzinga
 If there are any questions you can contact me at jacobmenzinga@gmail.com
 ..
 
